@@ -6,6 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property mixed name
+ * @property mixed surname
+ * @property mixed email
+ * @property mixed password
+ * @method static find($id)
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'surname', 'description', 'email', 'password',
     ];
 
     /**
@@ -36,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relación de uno a muchos
+    public function posts() {
+        return $this->hasMany('App\Post');
+    }
 }

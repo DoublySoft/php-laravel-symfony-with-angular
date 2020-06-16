@@ -84,6 +84,8 @@
                     Laravel
                 </div>
 
+                <p>Desarrollo de APIs y servicios RESTfull con Laravel 5 y Victor Robles</p>
+
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>
