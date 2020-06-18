@@ -1,2 +1,54 @@
-<h1>{{page_title}}</h1>
-<p>login works!</p>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8 mt-3 text-center">
+
+    <h1 class="h2">{{page_title}}</h1>
+    <p>Regístrate en nuestra plataforma para crear nuevas entradas y mucho más!</p>
+
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+
+    <div class="alert alert-success" *ngIf="result.status == 'success'">
+      ¡Bienvenido! ¡Ya estás en nuestro equipo! <a routerLink="/login">Iniciar sesión</a>.
+    </div>
+
+    <div class="alert alert-danger" *ngIf="result.status == 'error'">
+      {{result.message}}
+    </div>
+
+    <!--Registry form-->
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+
+      <div class="form-group">
+        <label for="emailUser">Email *</label>
+        <input class="form-control" type="text" id="emailUser" #email="ngModel" [(ngModel)]="user.email"
+               [ngModelOptions]="{standalone: true}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        <small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block form-text text-danger">
+          El email no es válido.
+        </small>
+        <small *ngIf="result.errors.email" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.email[0]}}
+        </small>
+      </div>
+
+
+      <div class="form-group">
+        <label for="passwordUser">Contraseña *</label>
+        <input class="form-control" type="password" id="passwordUser" #password="ngModel" [(ngModel)]="user.password"
+               [ngModelOptions]="{standalone: true}" required>
+        <small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block form-text text-danger">
+          La contraseña no es válida.
+        </small>
+        <small *ngIf="result.errors.password" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.password[0]}}
+        </small>
+      </div>
+
+      <input class="btn btn-success" type="submit" value="Registrarme" [disabled]="registerForm.invalid">
+
+    </form>
+
+  </div>
+</div>

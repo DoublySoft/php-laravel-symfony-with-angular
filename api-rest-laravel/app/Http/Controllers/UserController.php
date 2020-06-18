@@ -18,10 +18,9 @@ class UserController extends Controller
     {
         // Collect data sent by POST
         $json = $request->input('json', null);
-        $params = json_decode($json);
         $params_array = json_decode($json, true);
 
-        if (!empty($params) && !empty($params_array)) {
+        if (!empty($params_array)) {
             // Received params
 
             // Clean data
@@ -39,7 +38,7 @@ class UserController extends Controller
                 // Validation failed
                 $data = array(
                     'status' => 'error',
-                    'code' => 404,
+                    'code' => 400,
                     'message' => 'The user was not been created',
                     'errors' => $validate->errors()
                 );
@@ -47,8 +46,8 @@ class UserController extends Controller
                 // Correct validation
 
                 // Code password
-                $pwd = hash('sha256', $params->password);
-                password_hash($params->password, PASSWORD_BCRYPT, ['cost' => 4]);
+                $pwd = hash('sha256', $params_array['password']);
+                password_hash($params_array['password'], PASSWORD_BCRYPT, ['cost' => 4]);
 
                 // Create user
                 $user = new User();
@@ -73,8 +72,9 @@ class UserController extends Controller
 
             $data = array(
                 'status' => 'error',
-                'code' => 404,
-                'message' => 'The data sent is not correct'
+                'code' => 400,
+                'message' => 'The data sent is not correct',
+                'data' => $params_array
             );
 
         }

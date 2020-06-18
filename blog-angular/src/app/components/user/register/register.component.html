@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-12 col-md-10 col-lg-8 mt-3 text-center">
 
-    <h1>{{page_title}}</h1>
+    <h1 class="h2">{{page_title}}</h1>
     <p>Regístrate en nuestra plataforma para crear nuevas entradas y mucho más!</p>
 
   </div>
@@ -10,47 +10,69 @@
 <div class="row justify-content-center">
   <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
 
+    <div class="alert alert-success" *ngIf="result.status == 'success'">
+      ¡Bienvenido! ¡Ya estás en nuestro equipo! <a routerLink="/login">Iniciar sesión</a>.
+    </div>
+
+    <div class="alert alert-danger" *ngIf="result.status == 'error'">
+      {{result.message}}
+    </div>
+
     <!--Registry form-->
-    <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
 
       <div class="form-group">
-        <label for="name">Nombre *</label>
-        <input class="form-control" type="text" id="name" #name="ngModel" [(ngModel)]="user.name" required
-               pattern="[a-zA-Z]+">
-        <small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block form-text text-danger">
+        <label for="nameUser">Nombre *</label>
+        <input class="form-control" type="text" id="nameUser" #name="ngModel" [(ngModel)]="user.name"
+               [ngModelOptions]="{standalone: true}" required pattern="[a-zA-Z]+">
+        <small *ngIf="!name.valid && name.touched" class="form-text text-danger">
           El nombre no es válido.
+        </small>
+        <small *ngIf="result.errors.name" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.name[0]}}
         </small>
       </div>
 
 
       <div class="form-group">
-        <label for="surname">Apellidos *</label>
-        <input class="form-control" type="text" id="surname" #surname="ngModel" [(ngModel)]="user.surname" required
-               pattern="[a-zA-Z]+">
+        <label for="surnameUser">Apellidos *</label>
+        <input class="form-control" type="text" id="surnameUser" #surname="ngModel" [(ngModel)]="user.surname"
+               [ngModelOptions]="{standalone: true}" required pattern="[a-zA-Z ]+">
         <small *ngIf="!surname.valid && surname.touched" class="invalid-feedback d-block form-text text-danger">
           Los apellidos no son válidos.
         </small>
+        <small *ngIf="result.errors.surname" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.surname[0]}}
+        </small>
       </div>
 
 
       <div class="form-group">
-        <label for="email">Email *</label>
-        <input class="form-control" type="text" id="email" #email="ngModel" [(ngModel)]="user.email" required>
+        <label for="emailUser">Email *</label>
+        <input class="form-control" type="text" id="emailUser" #email="ngModel" [(ngModel)]="user.email"
+               [ngModelOptions]="{standalone: true}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
         <small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block form-text text-danger">
           El email no es válido.
         </small>
+        <small *ngIf="result.errors.email" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.email[0]}}
+        </small>
       </div>
 
 
       <div class="form-group">
-        <label for="password">Contraseña *</label>
-        <input class="form-control" type="text" id="password" #password="ngModel" [(ngModel)]="user.password" required>
+        <label for="passwordUser">Contraseña *</label>
+        <input class="form-control" type="password" id="passwordUser" #password="ngModel" [(ngModel)]="user.password"
+               [ngModelOptions]="{standalone: true}" required>
         <small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block form-text text-danger">
           La contraseña no es válida.
         </small>
+        <small *ngIf="result.errors.password" class="invalid-feedback d-block form-text text-danger">
+          {{result.errors.password[0]}}
+        </small>
       </div>
 
-      <input class="btn btn-success" type="submit" value="Registrarme" [disabled]="registerForm.invalid">
+      <input class="btn btn-success" type="submit" value="Registrarme" [disabled]="loginForm.invalid">
 
     </form>
 
